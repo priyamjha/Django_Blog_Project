@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for posts in post %}
+        <div class="col">
+            <div class="card">
+                <!-- <img src="..." class="card-img-top" alt="..."> -->
+                <div class="card-body">
+                    <h5 class="card-title">{{posts.title}}</h5>
+                    {% if posts.is_published == True %}
+                    <p class="card-text text-success">Published</p>
+                    {% else %}
+                    <p class="card-text text-warning">Not Published</p>
+                    {% endif %}
+
+                    <p class="card-text">{{posts.body|slice:"250"}}...</p>
+                    <a class="btn btn-outline-primary btn-sm" href="{% url 'post-details' posts.pk %}">View Details</a>
+                    <a class="btn btn-outline-success btn-sm" href="{% url 'update-post' posts.pk %}">Update</a>
+                    <a class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        href="">Delete</a>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{posts.title}}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to permanently delete this post
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a href="{% url 'delete-post' posts.pk %}" class="btn btn-primary">Yes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div><br>
+
+
+
+
+
+{% endblock content %}
